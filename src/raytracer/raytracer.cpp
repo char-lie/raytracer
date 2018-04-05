@@ -1,22 +1,40 @@
 #include "sphere.h"
 
-__kernel void processArray(
-    __global float3* output,
-    __global struct Sphere* spheres,
-    ulong spheresCount,
+#ifndef __OPENCL_C_VERSION__
+
+#include <CL/cl.hpp>
+
+#include <glm/geometric.hpp>
+
+#include "cpu.hpp"
+
+using glm::dot;
+
+#define __global
+#define global
+#define __kernel
+
+typedef cl_float3 float3;
+typedef cl_float2 float2;
+
+#endif
+
+__kernel void tracePixel(
     ulong width,
-    ulong height
-)
+    ulong height,
+    __global float3* output,
+    const __global struct Sphere* spheres,
+    ulong spheresCount,
+    int index)
 {
-    int index = get_global_id(0);
     const int channels = 3;
-    output[index] = 0;
+    output[index] = (float3){0, 0, 0};
     float y = convert_float(index / width) / height;
     float x = convert_float(index % width) / width;
     // x *= x / y;
-    output[index] = (float3)(y, x / 2, x);
+    output[index] = (float3){y, x / 2, x};
     float2 point = {x, y};
-    global struct Sphere* sphere;
+    global const struct Sphere* sphere;
     for (ulong i = 0; i < spheresCount; ++i)
     {
         sphere = &spheres[i];
@@ -31,3 +49,11 @@ __kernel void processArray(
 
     }
 }
+
+#ifndef __OPENCL_C_VERSION__
+
+#undef __global
+#undef global
+#undef __kernel
+
+#endif

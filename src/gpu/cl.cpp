@@ -55,7 +55,7 @@ Program createProgram(const vector<string>& filenames)
     Context context{devices};
     Program program{context, sources};
 
-    program.build("-cl-std=CL1.1 -I ./src");
+    program.build("-cl-std=CL1.1 -I ./src/raytracer");
     return program;
 }
 

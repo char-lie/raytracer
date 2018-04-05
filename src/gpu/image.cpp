@@ -10,7 +10,7 @@
 
 #include "cl.hpp"
 
-#include "sphere.h"
+#include "../raytracer/sphere.h"
 
 using std::vector;
 using std::cerr;
@@ -26,24 +26,21 @@ using cl::NullRange;
 using cl::NDRange;
 using cl::Error;
 
-vector<float> clImage(const unsigned width, const unsigned height)
+vector<float> clImage(
+    const unsigned width,
+    const unsigned height,
+    const vector<Sphere>& spheres)
 {
     vector<cl_float3> data(width * height);
-    vector<Sphere> spheres;
-    spheres.push_back({
-        .radius = .5f,
-        .position = {0.f, 0.f, 1.f},
-        .color = {0.f, 1.f, 0.f},
-    });
-
 
     Program program;
     vector<Device> devices;
     try
     {
         program = createProgram(vector<string>{
-            "src/sphere.cpp",
-            "kernels/array.cl",
+            "src/raytracer/raytracer.cpp",
+            "src/raytracer/sphere.cpp",
+            "kernels/raytracer.cl",
         });
         Context context{program.getInfo<CL_PROGRAM_CONTEXT>()};
         devices = vector<Device>{context.getInfo<CL_CONTEXT_DEVICES>()};
@@ -56,9 +53,10 @@ vector<float> clImage(const unsigned width, const unsigned height)
         Buffer spheresBuffer(
             context,
             CL_MEM_READ_ONLY | CL_MEM_HOST_NO_ACCESS | CL_MEM_COPY_HOST_PTR,
-            sizeof(Sphere) * spheres.size(), spheres.data());
+            sizeof(Sphere) * spheres.size(),
+            const_cast<Sphere*>(spheres.data()));
 
-        Kernel kernel(program, "processArray");
+        Kernel kernel(program, "raytrace");
         unsigned arguments = 0;
         kernel.setArg(arguments++, outBuffer);
         kernel.setArg(arguments++, spheresBuffer);

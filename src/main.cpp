@@ -1,19 +1,72 @@
+#include <vector>
+#include <string>
+#include <iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <vector>
 
-#include "image.hpp"
-#include "cl_image.hpp"
-#include "gui.hpp"
+#include "cpu/image.hpp"
+#include "gpu/image.hpp"
+#include "gui/gui.hpp"
+#include "raytracer/sphere.h"
 
 using std::vector;
+using std::string;
+using std::cout;
+using std::endl;
 
-int main(void)
+int main(int argc, char* argv[])
 {
     const unsigned textureWidth = 1920;
     const unsigned textureHeight = 1080;
-    // vector<float> pixels = createImage(textureWidth, textureHeight);
-    vector<float> pixels = clImage(textureWidth, textureHeight);
+    vector<float> pixels;
+
+    vector<Sphere> spheres;
+    spheres.push_back({
+        .radius = .5f,
+        .center = {0.f, 0.f, 1.f},
+        .color = {0.f, 1.f, 0.f},
+    });
+
+    string command{"-h"};
+    if (argc == 2)
+    {
+        command = argv[1];
+    }
+    if (command == "-h" || command == "--help")
+    {
+        cout << "Usage: " << argv[0] << " [-c|--cpu|g|--gpu|--help|-h]"
+             << endl << endl
+             << "--cpu, -c          Run raytracing using CPU" << endl
+             << "--gpu, -g          Run raytracing using GPU (OpenCL)" << endl
+             << endl;
+        return 0;
+    }
+    else if (command == "-c" || command == "--cpu")
+    {
+        pixels = createImage(
+            textureWidth,
+            textureHeight,
+            spheres
+        );
+    }
+    else if (command == "-g" || command == "--gpu")
+    {
+        pixels = clImage(
+            textureWidth,
+            textureHeight,
+            spheres
+        );
+    }
+    else
+    {
+        cout << "Unknown command " << command
+             << endl
+             << "Use -h or --help to call help"
+             << endl;
+        return -1;
+    }
+
     GLFWwindow* window = createWindow(
         640, 480, pixels.data(), textureWidth, textureHeight);
 
