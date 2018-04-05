@@ -21,7 +21,7 @@ cl_float3 operator-(const cl_float3& x, const cl_float3& y)
 
 float norm(const cl_float3& x)
 {
-    return dot(x, x);
+    return sqrt(dot(x, x));
 }
 
 float distance(const cl_float3& x, const cl_float3& y)
