@@ -6,17 +6,17 @@
 
 cl_float3 operator*(const cl_float3& x, const float c)
 {
-    return {c * x.s[0], c * x.s[1], c * x.s[2]};
-}
-
-cl_float3 operator-(const cl_float3& x, const cl_float3& y)
-{
-    return {x.s[0] - y.s[0], x.s[1] - y.s[1], x.s[2] - y.s[2]};
+    return {x.s[0] * c, x.s[1] * c, x.s[2] * c};
 }
 
 cl_float3 operator-(const cl_float3& x, float c)
 {
     return {x.s[0] - c, x.s[1] - c, x.s[2] - c};
+}
+
+cl_float3 operator-(const cl_float3& x, const cl_float3& y)
+{
+    return {x.s[0] - y.s[0], x.s[1] - y.s[1], x.s[2] - y.s[2]};
 }
 
 float norm(const cl_float3& x)
