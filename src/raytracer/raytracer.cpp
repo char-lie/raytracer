@@ -2,13 +2,10 @@
 
 #ifndef __OPENCL_C_VERSION__
 
+#include <cmath>
 #include <CL/cl.hpp>
 
-#include <glm/geometric.hpp>
-
 #include "cpu.hpp"
-
-using glm::dot;
 
 #define __global
 #define global

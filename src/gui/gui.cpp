@@ -1,6 +1,5 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/mat4x4.hpp>
 
 #include "texture.hpp"
 #include "program.hpp"

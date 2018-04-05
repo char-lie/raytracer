@@ -2,7 +2,7 @@
 
 #ifndef __OPENCL_C_VERSION__
 
-#include <glm/geometric.hpp>
+#include <cmath>
 
 #include "cpu.hpp"
 
@@ -13,8 +13,6 @@
 #endif
 
 typedef cl_float3 float3;
-
-using glm::dot;
 
 #endif
 
