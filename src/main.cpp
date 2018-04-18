@@ -21,12 +21,23 @@ int main(int argc, char* argv[])
     const unsigned textureHeight = 1080;
     vector<float> pixels;
 
-    vector<Sphere> spheres;
-    spheres.push_back({
+    vector<Sphere> spheres{
+    {
         .radius = .5f,
         .center = {0.f, 0.f, 1.f},
         .color = {0.f, 1.f, 0.f},
-    });
+    },
+    {
+        .radius = .25f,
+        .center = {.5f, .5f, .8f},
+        .color = {1.f, 0.f, 0.f},
+    },
+    {
+        .radius = .5f,
+        .center = {.75f, 0.f, 1.1f},
+        .color = {0.f, 0.f, 1.f},
+    },
+    };
 
     string command{"-h"};
     if (argc == 2)
