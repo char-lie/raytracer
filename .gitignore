@@ -36,4 +36,4 @@ bin
 obj
 
 # VIM swapfiles
-.sw[op]
+.*sw[op]
