@@ -6,11 +6,8 @@
 
 #include "cpu.hpp"
 
-#ifdef __global
-#define GLOBAL_DEFINED
-#else
 #define __global
-#endif
+#define global
 
 typedef cl_float3 float3;
 
@@ -51,10 +48,32 @@ float distanceRaySphere(
     }
 }
 
+global const struct Sphere* nearestSphere(
+    global const struct Sphere* spheres,
+    ulong spheresCount,
+    float3 rayStart,
+    float3 rayDirection)
+{
+    float nearestDistance = INFINITY;
+    global const struct Sphere* nearestSphere = NULL;
+
+    global const struct Sphere* sphere;
+    for (ulong i = 0; i < spheresCount; ++i)
+    {
+        sphere = &spheres[i];
+        float dist = distanceRaySphere(sphere, rayStart, rayDirection);
+        if (dist < nearestDistance)
+        {
+            nearestSphere = sphere;
+            nearestDistance = dist;
+        }
+    }
+    return nearestSphere;
+}
+
 #ifndef __OPENCL_C_VERSION__
 
-#ifdef GLOBAL_DEFINED
 #undef __global
-#endif
+#undef global
 
 #endif
