@@ -9,6 +9,7 @@
 #include "gpu/image.hpp"
 #include "gui/gui.hpp"
 #include "raytracer/sphere.h"
+#include "raytracer/light.h"
 
 using std::vector;
 using std::string;
@@ -39,6 +40,13 @@ int main(int argc, char* argv[])
     },
     };
 
+    vector<SpotLight> lights{
+    {
+        .position = {.25f, 1.f, .0f},
+        .intensity = 1.f,
+    },
+    };
+
     string command{"-h"};
     if (argc == 2)
     {
@@ -58,7 +66,8 @@ int main(int argc, char* argv[])
         pixels = createImage(
             textureWidth,
             textureHeight,
-            spheres
+            spheres,
+            lights
         );
     }
     else if (command == "-g" || command == "--gpu")
@@ -66,7 +75,8 @@ int main(int argc, char* argv[])
         pixels = clImage(
             textureWidth,
             textureHeight,
-            spheres
+            spheres,
+            lights
         );
     }
     else

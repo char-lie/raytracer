@@ -11,6 +11,7 @@
 #include "cl.hpp"
 
 #include "../raytracer/sphere.h"
+#include "../raytracer/light.h"
 
 using std::vector;
 using std::cerr;
@@ -29,7 +30,8 @@ using cl::Error;
 vector<float> clImage(
     const unsigned width,
     const unsigned height,
-    const vector<Sphere>& spheres)
+    const vector<Sphere>& spheres,
+    const vector<SpotLight>& lights)
 {
     vector<cl_float3> data(width * height);
 
@@ -40,6 +42,7 @@ vector<float> clImage(
         program = createProgram(vector<string>{
             "src/raytracer/raytracer.cpp",
             "src/raytracer/sphere.cpp",
+            "src/raytracer/light.cpp",
             "kernels/raytracer.cl",
         });
         Context context{program.getInfo<CL_PROGRAM_CONTEXT>()};
@@ -55,12 +58,19 @@ vector<float> clImage(
             CL_MEM_READ_ONLY | CL_MEM_HOST_NO_ACCESS | CL_MEM_COPY_HOST_PTR,
             sizeof(Sphere) * spheres.size(),
             const_cast<Sphere*>(spheres.data()));
+        Buffer lightsBuffer(
+            context,
+            CL_MEM_READ_ONLY | CL_MEM_HOST_NO_ACCESS | CL_MEM_COPY_HOST_PTR,
+            sizeof(SpotLight) * lights.size(),
+            const_cast<SpotLight*>(lights.data()));
 
         Kernel kernel(program, "raytrace");
         unsigned arguments = 0;
         kernel.setArg(arguments++, outBuffer);
         kernel.setArg(arguments++, spheresBuffer);
         kernel.setArg(arguments++, static_cast<cl_ulong>(spheres.size()));
+        kernel.setArg(arguments++, lightsBuffer);
+        kernel.setArg(arguments++, static_cast<cl_ulong>(lights.size()));
         kernel.setArg(arguments++, static_cast<const cl_ulong>(width));
         kernel.setArg(arguments++, static_cast<const cl_ulong>(height));
 

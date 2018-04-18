@@ -5,9 +5,19 @@ __kernel void raytrace(
     __global float3* output,
     __global struct Sphere* spheres,
     ulong spheresCount,
+    __global struct SpotLight* lights,
+    ulong lightsCount,
     ulong width,
     ulong height
 )
 {
-    tracePixel(width, height, output, spheres, spheresCount, get_global_id(0));
+    tracePixel(
+        width,
+        height,
+        output,
+        spheres,
+        spheresCount,
+        lights,
+        lightsCount,
+        get_global_id(0));
 }

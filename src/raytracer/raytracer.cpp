@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "light.h"
 
 #ifndef __OPENCL_C_VERSION__
 
@@ -22,6 +23,8 @@ __kernel void tracePixel(
     __global float3* output,
     const __global struct Sphere* spheres,
     ulong spheresCount,
+    const __global struct SpotLight* lights,
+    ulong lightsCount,
     int index)
 {
     const int channels = 3;

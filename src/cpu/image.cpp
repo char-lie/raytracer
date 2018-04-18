@@ -5,6 +5,7 @@
 #include "image.hpp"
 
 #include "../raytracer/sphere.h"
+#include "../raytracer/light.h"
 #include "../raytracer/raytracer.h"
 
 using std::vector;
@@ -12,7 +13,8 @@ using std::vector;
 vector<float> createImage(
     const unsigned width,
     const unsigned height,
-    const vector<Sphere>& spheres)
+    const vector<Sphere>& spheres,
+    const vector<SpotLight>& lights)
 {
     vector<cl_float3> data(width * height);
 
@@ -26,6 +28,8 @@ vector<float> createImage(
                 data.data(),
                 spheres.data(),
                 spheres.size(),
+                lights.data(),
+                lights.size(),
                 y * width + x);
         }
     }
