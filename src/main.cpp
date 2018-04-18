@@ -43,7 +43,11 @@ int main(int argc, char* argv[])
     vector<SpotLight> lights{
     {
         .position = {.25f, 1.f, .0f},
-        .intensity = 1.f,
+        .intensity = .75f,
+    },
+    {
+        .position = {.5f, 1.f, 1.f},
+        .intensity = .2f,
     },
     };
 
