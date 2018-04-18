@@ -15,7 +15,8 @@ SOURCE_FILES= \
 	gui/program.cpp gui/texture.cpp gui/gui.cpp \
 	cpu/image.cpp \
 	gpu/cl.cpp gpu/image.cpp \
-	raytracer/sphere.cpp raytracer/cpu.cpp raytracer/raytracer.cpp
+	raytracer/sphere.cpp raytracer/cpu.cpp raytracer/raytracer.cpp \
+		raytracer/light.cpp
 GLAD_SRC=${THIRD_PARTY_DIR}/glad.c
 MAIN_SRC=${SRCDIR}/main.cpp
 
