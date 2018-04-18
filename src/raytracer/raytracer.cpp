@@ -32,16 +32,18 @@ __kernel void tracePixel(
     output[index] = (float3){y, x / 2, x};
     float2 point = {x, y};
     global const struct Sphere* sphere;
+    float nearestDistance = INFINITY;
     for (ulong i = 0; i < spheresCount; ++i)
     {
         sphere = &spheres[i];
         float3 start = {x, y, 0};
         float3 direction = {0, 0, 1};
         float dist = distanceRaySphere(sphere, start, direction);
-        if (dist < INFINITY)
+        if (dist < nearestDistance)
         {
             output[index] = sphere->color *
                 fabs(dot(sphere->center, direction) - dist);
+            nearestDistance = dist;
         }
 
     }
