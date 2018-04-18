@@ -35,8 +35,8 @@ float distanceRaySphere(
         return INFINITY;
     }
     float b = dot(direction, start - sphere->center);
-    float near = - b + sqrt(D);
-    float far = - b - sqrt(D);
+    float far = - b + sqrt(D);
+    float near = - b - sqrt(D);
     if (far < 0)
     {
         return INFINITY;
