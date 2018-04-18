@@ -48,7 +48,13 @@ __kernel void tracePixel(
     {
         float dist = distanceRaySphere(sphere, start, direction);
         output[index] = sphere->color *
-            fabs(dot(sphere->center, direction) - dist);
+            calculateBrightness(
+                start + direction * dist,
+                lights,
+                lightsCount,
+                spheres,
+                spheresCount,
+                sphere);
     }
 }
 
