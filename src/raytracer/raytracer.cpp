@@ -34,11 +34,13 @@ __kernel void tracePixel(
     float3 start = {x, y, 0};
     float3 direction = {0, 0, 1};
 
-    global const struct Sphere* sphere = nearestSphere(
+    global const struct Sphere* sphere = findNearestSphere(
         spheres,
         spheresCount,
         start,
-        direction);
+        direction,
+        INFINITY,
+        NULL);
     if (sphere)
     {
         float dist = distanceRaySphere(sphere, start, direction);

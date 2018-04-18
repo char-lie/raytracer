@@ -4,6 +4,7 @@
 
 #ifndef __OPENCL_C_VERSION__
 
+#include <cmath>
 #include <CL/cl.hpp>
 typedef cl_float3 float3;
 
@@ -24,11 +25,13 @@ float distanceRaySphere(
     float3 start,
     float3 direction);
 float sqr(float x);
-global const struct Sphere* nearestSphere(
+global const struct Sphere* findNearestSphere(
     global const struct Sphere* spheres,
     ulong spheresCount,
     float3 rayStart,
-    float3 rayDirection);
+    float3 rayDirection,
+    float nearerThan,
+    global const struct Sphere* ignoredSphere);
 
 #ifndef __OPENCL_C_VERSION__
 

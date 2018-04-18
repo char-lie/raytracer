@@ -48,24 +48,29 @@ float distanceRaySphere(
     }
 }
 
-global const struct Sphere* nearestSphere(
+global const struct Sphere* findNearestSphere(
     global const struct Sphere* spheres,
     ulong spheresCount,
     float3 rayStart,
-    float3 rayDirection)
+    float3 rayDirection,
+    float nearerThan,
+    global const struct Sphere* ignoredSphere)
 {
-    float nearestDistance = INFINITY;
     global const struct Sphere* nearestSphere = NULL;
 
     global const struct Sphere* sphere;
     for (ulong i = 0; i < spheresCount; ++i)
     {
         sphere = &spheres[i];
+        if (sphere == ignoredSphere)
+        {
+            continue;
+        }
         float dist = distanceRaySphere(sphere, rayStart, rayDirection);
-        if (dist < nearestDistance)
+        if (dist < nearerThan)
         {
             nearestSphere = sphere;
-            nearestDistance = dist;
+            nearerThan = dist;
         }
     }
     return nearestSphere;
