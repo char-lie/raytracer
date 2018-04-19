@@ -24,7 +24,6 @@ float distanceRaySphere(
     __global const struct Sphere* sphere,
     float3 start,
     float3 direction);
-float sqr(float x);
 global const struct Sphere* findNearestSphere(
     global const struct Sphere* spheres,
     ulong spheresCount,

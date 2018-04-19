@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "common.h"
 
 #ifndef __OPENCL_C_VERSION__
 
@@ -12,11 +13,6 @@
 typedef cl_float3 float3;
 
 #endif
-
-float sqr(float x)
-{
-    return x * x;
-}
 
 float distanceRaySphere(
     __global const struct Sphere* sphere,

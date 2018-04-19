@@ -1,11 +1,10 @@
+#include "common.h"
 #include "sphere.h"
 #include "light.h"
 
 #ifndef __OPENCL_C_VERSION__
 
 #include <cmath>
-#define min(x, y) (x < y ? x : y)
-#define max(x, y) (x > y ? x : y)
 
 #include "cpu.hpp"
 
