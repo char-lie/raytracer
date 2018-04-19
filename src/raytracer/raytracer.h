@@ -1,3 +1,6 @@
+#include "sphere.h"
+#include "light.h"
+
 #ifndef __OPENCL_C_VERSION__
 
 #include <CL/cl.hpp>
@@ -6,11 +9,9 @@
 #define __kernel
 
 typedef cl_float3 float3;
+typedef cl_float4 float4;
 
 #endif
-
-#include "sphere.h"
-#include "light.h"
 
 __kernel void tracePixel(
     ulong width,
@@ -21,6 +22,14 @@ __kernel void tracePixel(
     __global const struct SpotLight* lights,
     ulong lightsCount,
     int index);
+
+float4 rayTrace(
+    __global const struct Sphere* spheres,
+    ulong spheresCount,
+    __global const struct SpotLight* lights,
+    ulong lightsCount,
+    float3 start,
+    float3 direction);
 
 #ifndef __OPENCL_C_VERSION__
 
