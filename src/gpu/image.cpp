@@ -40,6 +40,7 @@ vector<float> clImage(
     try
     {
         program = createProgram(vector<string>{
+            "src/raytracer/common.cpp",
             "src/raytracer/raytracer.cpp",
             "src/raytracer/sphere.cpp",
             "src/raytracer/light.cpp",
